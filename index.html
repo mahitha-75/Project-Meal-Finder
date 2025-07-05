@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Finder</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter for consistent typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="Meal.css">
+    <script src="Meal.js" defer></script>
+</head>
+<body class="bg-white">
+
+    <!-- Header Section: Meal Finder Title, Home Icon, and Hamburger Menu -->
+    <!-- The entire header has an orange background as requested -->
+    <header class="bg-orange-500 shadow-md sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl md:text-3xl font-bold text-white tracking-wider">
+                <!-- Home icon as the clickable element for the home page, NO "Home" text -->
+                <a href="#" onclick="showCategoriesView(event)" class="flex items-center">
+                    <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                    MEAL FINDER
+                </a>
+            </h1>
+            <div class="flex items-center space-x-4">
+                <!-- Back button, hidden by default, shown on meal list/details views -->
+                <div id="back-button-container" class="hidden">
+                    <button onclick="handleBackClick(event)" class="bg-white text-orange-500 font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-gray-100 transition-colors">
+                        &larr; Back
+                    </button>
+                </div>
+                <!-- Hamburger menu icon (triple equals) -->
+                <button id="menu-button" class="text-white">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar / Off-canvas Menu for categories -->
+    <div id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-white shadow-lg z-50 p-6 overflow-y-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold text-gray-800">Categories</h2>
+            <button id="close-button" class="text-gray-600 hover:text-gray-900">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <ul id="sidebar-category-list" class="space-y-2">
+            <!-- Sidebar category list items will be dynamically injected here -->
+        </ul>
+    </div>
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+
+    <!-- Main Content Area -->
+    <main>
+        
+        <!-- Hero and Search Section -->
+        <section id="hero-section" class="relative text-white py-20 px-4 text-center">
+            <div class="relative z-10">
+                <div class="mb-8 max-w-lg mx-auto">
+                    <form id="search-form" class="flex space-x-2"> 
+                        <input id="search-input" type="text" placeholder="Search recipes here..." class="flex-grow py-3 px-5 rounded-full text-gray-800 focus:outline-none focus:ring-4 focus:ring-orange-300">
+                        <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white p-3 rounded-full"> 
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </button>
+                    </form>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold mb-2">What are your favorite cuisine?</h2>
+                <p class="text-lg text-gray-200 uppercase tracking-wider">Personalize your experience</p>
+            </div>
+        </section>
+
+        <!-- Dynamic Content Area for categories, meals, and meal details -->
+        <div id="content-container" class="container mx-auto p-4 md:p-8">
+            
+            <!-- Meals Section (for search results or category meals) -->
+            <section id="meals-section" class="hidden mb-12"> 
+                <div id="category-description-container" class="mb-8 p-6 rounded-lg border-2 border-orange-500 bg-orange-50"> 
+                    <!-- Category description will be injected here -->
+                </div>
+                <h2 id="meals-title" class="text-2xl font-bold text-gray-800 uppercase mb-6">MEALS</h2>
+                <div id="meals-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6"></div>
+            </section>
+
+            <!-- Meal Details Section (only visible for individual meal details) -->
+            <section id="meal-details-section" class="hidden">
+                <!-- Meal details will be injected here -->
+            </section>
+
+            <!-- Categories Section (always visible on home, and below meals/details as requested) -->
+            <section id="categories-section" class="mt-8"> 
+                <h2 class="text-2xl font-bold text-gray-800 uppercase mb-6">CATEGORIES</h2>
+                <div id="categories-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6"></div>
+            </section>
+        </div>
+
+        <!-- Loader for fetching data -->
+        <div id="loader" class="text-center py-10 hidden">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto"></div>
+            <p class="mt-4 text-gray-600">Loading...</p>
+        </div>
+
+    </main>
+
+    
+    
+</body>
+</html>
