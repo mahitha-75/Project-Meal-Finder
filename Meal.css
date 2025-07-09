@@ -21,7 +21,7 @@ body {
         /* Category tag styling for meal cards */
         .category-tag {
             position: absolute;
-            top: 0.75rem;
+            top: 0.74rem;
             right: 0rem; 
             background-color: #f67518; /* Orange background */
             color: rgb(228, 220, 220);
