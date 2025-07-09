@@ -9,7 +9,7 @@ body {
             background-size: cover;
             background-position: center;
         }
-        /* Sidebar transition for smooth opening/closing */
+        /* Sidebar transition for smooth opening/closings */
         #sidebar {
             transition: transform 0.3s ease-in-out;
             transform: translateX(100%); /* Hidden by default */
